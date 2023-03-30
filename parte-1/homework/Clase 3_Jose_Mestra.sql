@@ -91,9 +91,9 @@ on substring(cast(ols.fecha as text) from 1 for 7) = substring(cast(mar.mes as t
 --10. Mostrar en la tabla de ventas el margen de venta por cada linea. Siendo margen = (venta - promociones) - costo expresado en dolares.
 select ols.*,
 	case 
-		When ols.moneda = 'ARS' then ((ols.venta+coalesce(ols.descuento,0))/mar.cotizacion_usd_peso)-cos.costo_promedio_usd
-		When ols.moneda = 'EUR' then ((ols.venta+coalesce(ols.descuento,0))/mar.cotizacion_usd_eur)-cos.costo_promedio_usd
-		When ols.moneda = 'URU' then ((ols.venta+coalesce(ols.descuento,0))/mar.cotizacion_usd_uru)-cos.costo_promedio_usd
+		When ols.moneda = 'ARS' then ((ols.venta+coalesce(ols.descuento,0))/mar.cotizacion_usd_peso)-(cos.costo_promedio_usd*ols.cantidad)
+		When ols.moneda = 'EUR' then ((ols.venta+coalesce(ols.descuento,0))/mar.cotizacion_usd_eur)-(cos.costo_promedio_usd*ols.cantidad)
+		When ols.moneda = 'URU' then ((ols.venta+coalesce(ols.descuento,0))/mar.cotizacion_usd_uru)-(cos.costo_promedio_usd*ols.cantidad)
 	end as Margen_ventas
 from stg.order_line_sale as ols
 left join stg.cost as cos
