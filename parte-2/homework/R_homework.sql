@@ -13,8 +13,7 @@ SELECT tienda, cast(cast(fecha as text) as date), conteo
 --3. Crear una vista con el resultado del ejercicio de la Parte 1 - Clase 3 - Ejercicio 10, donde calculamos el margen bruto en dolares. Agregarle la columna de ventas, descuentos, y creditos en dolares para poder reutilizarla en un futuro.
 create or replace view stg.dolarizacion as
 with cte_ventas_tc as (
-	select *
-		,case 
+	select case 
 		When ols.moneda = 'ARS' then mar.cotizacion_usd_peso
 		When ols.moneda = 'EUR' then mar.cotizacion_usd_eur
 		When ols.moneda = 'URU' then mar.cotizacion_usd_uru
@@ -67,8 +66,7 @@ create table stg.suppliers (
 
 create or replace view stg.dolarizacion as
 with cte_ventas_tc as (
-	select *
-		,case 
+	select case 
 		When ols.moneda = 'ARS' then mar.cotizacion_usd_peso
 		When ols.moneda = 'EUR' then mar.cotizacion_usd_eur
 		When ols.moneda = 'URU' then mar.cotizacion_usd_uru
@@ -101,8 +99,7 @@ having count(*)>1
 --		-Crear una nueva query que no genere duplicacion.
 	create or replace view stg.dolarizacion as
 with cte_ventas_tc as (
-	select *
-		,case 
+	select case 
 		When ols.moneda = 'ARS' then mar.cotizacion_usd_peso
 		When ols.moneda = 'EUR' then mar.cotizacion_usd_eur
 		When ols.moneda = 'URU' then mar.cotizacion_usd_uru
@@ -227,7 +224,7 @@ select foo.*, lag(sum2, 7) over(partition by foo.tienda, foo.sku) as d
 )
 select inv.fecha, inv.tienda, inv.sku, pm.nombre as nombre_producto, pm.categoria, sm.nombre as nombre_tienda, sm.pais
 	,inv.inicial, (inv.inicial*co.costo_promedio_usd) as costo_inv, coalesce(inv.cantidad, 0) as cant_ventas
-	,inv.fecha+7 as is_last_snapshot
+	,max(inv.fecha) over() as is_last_snapshot
 	,lag(round(inv.inicial/(case when ((inv.sum2-coalesce(inv.d,0))/7.0) = 0 then null else ((inv.sum2-coalesce(inv.d,0))/7.0) end),0),1) over(partition by inv.tienda, inv.sku order by inv.fecha) as doh
 from hepl as inv
 left join stg.product_master as pm
