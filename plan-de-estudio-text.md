@@ -92,17 +92,19 @@
 
 ### Clase 8:
 
-* Windows functions 3: sum, avg
-* Funciones para el manejo de datos string y date
-* Ejercicios dificultad Media - Parte 1
-* Ejercicios dificultad Media - Parte 2
-* Homework
+* Windows functions 3: sum, avg.
+* Windows functions 4: first_value, last_value.
+* Funciones para el manejo de datos tipo date.
+* Tabla calendario.
+* Ejercicios de entrevistas dificultad Media.
+* Homework.
 
 
 ### Clase 9:
 
-* Stored Procedures.
-* Merge update & Upsert.
+* Self join vs window function.
+* Nested vs correlated subqueries.
+* Funciones para el manejo de datos tipo string.
 * Ejercicio integrador
 
 
@@ -116,28 +118,34 @@
 
 ### Clase 11: 
 
-* Montar un Datalake y un Data Warehouse. Ambientes de produccion y testeo.
+* Diferencias entre Datalake y Data Warehouse. 
+* Ambientes de produccion y testeo.
+* Paradigma de base de datos.
 * Integridad referencial.
 * Introduccion al modelado dimensional.
-* Guia de estilo y sintaxis.
+* Otros tipos de modelado.
+* Normalizacion vs denormalizacion.
 * Homework.
 
 
 ### Clase 12:
 
-* Regex.
-* Self join vs window function.
-* Nested vs correlated subqueries.
-* Ejercicios de entrevista dificultad alta - Parte 1
-* Ejercicios de entrevista dificultad alta - Parte 2
+* ETL/ELT
+* Stored Procedures.
+* Estrategias para insertar y modelar datos en SQL.
+* User defined functions.
+* De stored procedures a modelos en dbt.
+* Ejercicios de entrevista dificultad alta - Parte 1.
+* Ejercicios de entrevista dificultad alta - Parte 2.
 * Homework.
 
 
 ### Clase 13:
 
-* Plan de ejecucion
-* Performance tunning
-* SQL Anti Patterns
+* Plan de ejecucion.
+* Performance tunning.
+* Guia de estilo y sintaxis.
+* SQL Anti Patterns.
 * Ejercicios de entrevista dificultad alta - Parte 3
 * Homework
 
