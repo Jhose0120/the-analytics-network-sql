@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS stg.product_master ;
+DROP TABLE IF EXISTS dim.product_master ;
     
-CREATE TABLE stg.product_master
+CREATE TABLE dim.product_master
                  (
                               codigo_producto VARCHAR(255) PRIMARY KEY
                             , nombre          VARCHAR(255)
