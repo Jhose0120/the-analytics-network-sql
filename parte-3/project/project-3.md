@@ -363,13 +363,48 @@ Logging es la practica que nos permite guardar registro de los cambios que se va
     - Usuario que corrio el stored procedures
 2. Crear un stored procedure que llene la tabla de log. 
 3. Poner el "call" del SP de logging en cada stored procedure creado en la parte de transformacion de las tablas stg a dim y fact y de las tablas de analytics.
+ ```
+--Se crea function que actualizaria la tabla
+CREATE OR REPLACE FUNCTION analytics.actualizar_modificaciones (val1 character varying, val2 character varying, val3 integer, val4 character varying )
+RETURNS void
+AS $$
+BEGIN
+    INSERT INTO analytics.modificaciones (tabla_modificada, nombre_sp, lineas_insertadas, usuario)
+	VALUES (val1, val2, val3, val4);
+END
+$$
+LANGUAGE PLPGSQL;
 
+-- Se tendria que llamar la funcion en cada function para que llene la información con los siguiente datos
+--Se mandaria quemado el objetivo de transaformación, el nombre del procedimiento y dado que siempre aplico borado de todos los datos el total de datos seria el valor de los valores insertados
+select analytics.actualizar_modificaciones('dim','nombre procedimiento', (select count(*) from tabla), (select user);
+ ```
 <br>
 
 ### Parte 7 - Funciones
 
-1. Encapsular la lógica de conversion de moneda en una función y reutilizarla en los scripts donde sea necesario. 
-2. (Opcional) Que otra logica podemos encapsular en una funcion? La idea es encontrar transformaciones que se repitan en varios lados. Si encontraste y crees que tiene sentido crear una funcion, hacelo!
+1. Encapsular la lógica de conversion de moneda en una función y reutilizarla en los scripts donde sea necesario.
+ ```
+
+CREATE OR REPLACE FUNCTION analytics.convertir_usd (val1 numeric, val2 character varying, val3 date)
+RETURNS numeric
+AS $$
+BEGIN
+    return (select case 
+		When val2 = 'ARS' then val1/mar.cotizacion_usd_peso
+		When val2 = 'EUR' then val1/mar.cotizacion_usd_eur
+		When val2 = 'URU' then val1/mar.cotizacion_usd_uru
+	end as tasa_cambio
+	from stg.monthly_average_fx_rate as mar
+	WHERE to_char(val3, 'yyyy-mm') = to_char(mar.mes, 'yyyy-mm'));
+END
+$$
+LANGUAGE PLPGSQL;
+
+SELECT analytics.convertir_usd (200, 'ARS', '2022-01-01')
+
+ ```
+3. (Opcional) Que otra logica podemos encapsular en una funcion? La idea es encontrar transformaciones que se repitan en varios lados. Si encontraste y crees que tiene sentido crear una funcion, hacelo!
 
 <br>
 
